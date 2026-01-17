@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Boda de Edrei & Lisbey</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+:root{
+    --rosa:#f6e6eb;
+    --dorado:#c9a24d;
+    --texto:#555;
+}
+
+*{ box-sizing:border-box; }
+
+body{
+    margin:0;
+    font-family:'Montserrat', sans-serif;
+    overflow-x:hidden;
+}
+
+/* ===== SECCIONES ===== */
+section{
+    min-height:100vh;
+    padding:50px 20px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    position:relative;
+    opacity:0;
+    transform:translateY(40px);
+    transition:1s ease;
+
+    background:
+        linear-gradient(rgba(255,255,255,0.85),rgba(255,255,255,0.85)),
+        url("fotoboda.png");
+    background-size:cover;
+    background-position:center;
+}
+
+section.visible{
+    opacity:1;
+    transform:translateY(0);
+}
+
+/* ===== ANIMACIÓN DE LETRAS ===== */
+.nombre-animado span{
+    display:inline-block;
+    opacity:0;
+    transform:translateY(20px);
+    animation:letra 0.6s forwards;
+}
+
+@keyframes letra{
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+/* ===== TEXTOS ===== */
+h1,h2{
+    font-family:'Playfair Display', serif;
+    color:#444;
+}
+
+.nombres{
+    font-size:38px;
+    margin:0;
+}
+
+.subtitulo{
+    color:var(--dorado);
+    font-size:22px;
+}
+
+/* ===== SOBRE ===== */
+.sobre{
+    width:230px;
+    height:150px;
+    position:relative;
+    margin-top:40px;
+    cursor:pointer;
+    z-index:2;
+}
+
+.sobre-base{
+    width:100%;
+    height:100%;
+    background:linear-gradient(135deg,#f5d27a,#c9a24d);
+    border-radius:12px;
+    box-shadow:0 20px 40px rgba(0,0,0,0.35);
+    position:absolute;
+}
+
+.sobre-tapa{
+    position:absolute;
+    width:0;
+    height:0;
+    border-left:115px solid transparent;
+    border-right:115px solid transparent;
+    border-bottom:90px solid #e2bb63;
+    top:-90px;
+    left:0;
+    transform-origin:bottom;
+    transition:transform 1.2s ease;
+}
+
+.sobre.abierto .sobre-tapa{
+    transform:rotateX(180deg);
+}
+
+.sello{
+    width:52px;
+    height:52px;
+    background:#b8860b;
+    border-radius:50%;
+    position:absolute;
+    top:48px;
+    left:89px;
+    color:white;
+    font-weight:bold;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:0 5px 12px rgba(0,0,0,0.4);
+}
+
+/* ===== CONTADOR ===== */
+.contador{
+    font-size:52px;
+    color:var(--dorado);
+    margin-top:20px;
+}
+
+/* ===== QR ===== */
+.qr img{
+    width:180px;
+    border-radius:18px;
+    border:4px solid var(--dorado);
+    margin:20px 0;
+}
+
+.texto{
+    max-width:330px;
+    color:var(--texto);
+    line-height:1.6;
+}
+
+/* ===== BOTÓN ===== */
+.boton{
+    margin-top:25px;
+    background:linear-gradient(135deg,#f5d27a,#c9a24d);
+    color:white;
+    padding:15px 35px;
+    border-radius:30px;
+    text-decoration:none;
+    font-weight:600;
+    box-shadow:0 10px 25px rgba(0,0,0,0.35);
+}
+</style>
+</head>
+
+<body>
+
+<!-- PÁGINA 1 -->
+<section>
+    <h1 class="nombres nombre-animado" data-text="Edrei & Lisbey"></h1>
+
+    <div class="sobre" onclick="abrirSobre(this)">
+        <div class="sobre-tapa"></div>
+        <div class="sobre-base"></div>
+        <div class="sello">✉</div>
+    </div>
+
+    <p style="color:#777;margin-top:15px">Toca el sello para abrir la invitación</p>
+</section>
+
+<!-- PÁGINA 2 -->
+<section id="pagina2">
+    <h1 class="nombres nombre-animado" data-text="Edrei & Lisbey"></h1>
+    <h2 class="subtitulo">Nuestra Boda</h2>
+</section>
+
+<!-- PÁGINA 3 -->
+<section>
+    <h2>Faltan</h2>
+    <div class="contador" id="contador">--</div>
+    <p>días</p>
+</section>
+
+<!-- PÁGINA 4 -->
+<section>
+    <h2 class="subtitulo">Celebración</h2>
+    <h1>25 de Abril de 2026</h1>
+    <p class="texto">Aquí puedes escribir el lugar de la celebración</p>
+</section>
+
+<!-- PÁGINA 5 -->
+<section>
+    <h2>Comparte tus recuerdos y fotos con nosotros</h2>
+
+    <div class="qr">
+        <img src="QR_bodadelisedrei.png" alt="QR Boda">
+    </div>
+
+    <p class="texto">Escanea el código QR y sube tus fotos</p>
+
+    <a class="boton" href="https://edreimaury.github.io/Boda-de-Lis-y-Edrei/" target="_blank">
+        Subir fotos
+    </a>
+</section>
+
+<script>
+/* Animación por página */
+const secciones=document.querySelectorAll("section");
+const obs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+        if(e.isIntersecting){
+            e.target.classList.add("visible");
+            animarNombres(e.target);
+        }
+    });
+},{threshold:0.3});
+secciones.forEach(s=>obs.observe(s));
+
+function animarNombres(section){
+    const el=section.querySelector(".nombre-animado");
+    if(!el || el.dataset.animado) return;
+    el.dataset.animado=true;
+    const texto=el.dataset.text;
+    el.innerHTML="";
+    [...texto].forEach((l,i)=>{
+        const span=document.createElement("span");
+        span.textContent=l;
+        span.style.animationDelay=(i*0.08)+"s";
+        el.appendChild(span);
+    });
+}
+
+function abrirSobre(el){
+    el.classList.add("abierto");
+    setTimeout(()=>{
+        document.getElementById("pagina2").scrollIntoView({behavior:"smooth"});
+    },1200);
+}
+
+function actualizarContador(){
+    const boda=new Date("2026-04-25T00:00:00");
+    const hoy=new Date();
+    const dias=Math.ceil((boda-hoy)/(1000*60*60*24));
+    document.getElementById("contador").textContent=dias>0?dias:0;
+}
+actualizarContador();
+</script>
+
+</body>
+</html>
